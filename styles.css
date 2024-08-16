@@ -2,7 +2,10 @@
     --width:500px;
     --height:500px;
 }
-
+html{
+    overflow:hidden;
+    overscroll-behavior: none;
+}
 *{
     margin:0;
     font-family: 'Clear Sans', sans-serif;

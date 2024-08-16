@@ -59,7 +59,7 @@ h1{
 .game-won{
     display:absolute;
     background-color: #edc22e;
-    box-shadow:0px 0px 15px 15px #edc22e;
+    box-shadow:0px 0px 10px 15px #ffe386;
     color: rgb(255, 255, 255);
     opacity:0.8;
 }
@@ -206,6 +206,30 @@ h1{
     background: #edc22e;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.5555555556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333);
     font-size: calc(35/500*var(--height));
+}
+.val4096{
+    color: #f9f6f2;
+    background: #2eedba;
+    box-shadow: 0 0 30px 15px rgba(116, 243, 230, 0.556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333);
+    font-size: calc(33/500*var(--height));
+}
+.val8192{
+    color: #f9f6f2;
+    background: #842eed;
+    box-shadow: 0 0 30px 18px rgba(203, 116, 243, 0.556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333);
+    font-size: calc(33/500*var(--height));
+}
+.val16384{
+    color: #f9f6f2;
+    background: #2e54ed;
+    box-shadow: 0 0 20px 21px rgba(116, 143, 243, 0.556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333);
+    font-size: calc(27.5/500*var(--height));
+}
+.val32768{
+    color: #f9f6f2;
+    background: #2eed3b;
+    box-shadow: 0 0 28px 25px rgba(116, 243, 133, 0.556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333);
+    font-size: calc(27.5/500*var(--height));
 }
 .col0{
     grid-column:1;

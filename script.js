@@ -28,14 +28,15 @@ function spawn(x, y, n){
     gamegrid[x][y] = n;
     let u = document.getElementsByClassName('game-container')[0]
     let c = document.createElement('div')
-    c.setAttribute('class', 'tile')
     let p = document.createElement('b')
+    c.setAttribute('class','egg');
     p.innerHTML = n;
     c.appendChild(p)
     c.classList.add('trow'+x)
     c.classList.add('tcol'+y)
     c.classList.add('val'+n)
     u.appendChild(c)
+    setTimeout(()=>{c.classList.add('tile')},2)
 }
 function rspawn(){
     let zeros = [];
@@ -256,6 +257,9 @@ function cont(){
 function won(){
     setTimeout(()=>{moving = true;},120);
     let s = document.getElementsByClassName('game-message')[0];
+    let g2 = document.createElement('div');
+    g2.setAttribute('class', 'gap');
+    s.appendChild(g2);
     s.classList.add('game-won');
     //s.classList.remove('game-message');
     let m = document.createElement('b');
@@ -263,31 +267,43 @@ function won(){
     let c = document.createElement('div');
     c.appendChild(m);
     s.appendChild(c);
+    let g1 = document.createElement('div');
+    g1.setAttribute('class', 'gap');
+    s.appendChild(g1);
     let b = document.createElement('div');
     let r = document.createElement('b');
+    let g = document.createElement('div');
     r.innerHTML = 'restart';
     b.appendChild(r);
     b.setAttribute('class', 'restart-button');
-    s.appendChild(b);
+    g.appendChild(b);
     b.addEventListener('click', restart);
+    //s.appendChild(g);
     let b2 = document.createElement('div');
     let c2 = document.createElement('b');
     c2.innerHTML = 'continue';
     b2.appendChild(c2);
     b2.setAttribute('class', 'restart-button');
-    s.appendChild(b2);
+    g.appendChild(b2);
     b2.addEventListener('click', cont);
+    s.appendChild(g);
 }
 function lost(){
     setTimeout(()=>{moving=true;});
     let s = document.getElementsByClassName('game-message')[0];
     s.classList.add('game-lost');
+    let g2 = document.createElement('div');
+    g2.setAttribute('class', 'gap');
+    s.appendChild(g2);
     //s.classList.remove('game-message');
     let m = document.createElement('b');
     m.innerHTML = 'You Lost!';
     let c = document.createElement('div');
     c.appendChild(m);
     s.appendChild(c);
+    let g1 = document.createElement('div');
+    g1.setAttribute('class', 'gap');
+    s.appendChild(g1);
     let b = document.createElement('div');
     let r = document.createElement('b');
     r.innerHTML = 'restart';

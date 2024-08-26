@@ -59,7 +59,7 @@ h1{
 .game-won{
     display:absolute;
     background-color: #edc22e;
-    box-shadow:0px 0px 10px 15px #ffe386;
+    box-shadow:0px 0px 0px 0px #ffe386;
     color: rgb(255, 255, 255);
     opacity:0.8;
 }
@@ -124,11 +124,11 @@ h1{
     left:5px;
 }
 .egg{
-    opacity:0;
+    /* opacity:0; */
     height:0;
     width:0;
     transform:translate(calc(var(--width)/10),calc(var(--height)/10));
-    transition-duration:transform(50ms);
+    transition-duration:150ms;
     transition-timing-function: ease-out;
 }
 .back, .tile{
@@ -139,6 +139,7 @@ h1{
     border-radius: 0.5rem;
     margin:auto;
     transition-duration: 150ms;
+    transition-timing-function: ease-out;
 }
 .tile{
     position: absolute;

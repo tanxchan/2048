@@ -3,7 +3,7 @@ var gamegrid = [[0,0,0,0],
                 [0,0,0,0],
                 [0,0,0,0]];
 var moving = false;
-const movingdelay = 110;
+const movingdelay = 10;
 const anidelay = 100;
 function diff(a,b){
     let d = false;
@@ -31,12 +31,12 @@ function spawn(x, y, n){
     let p = document.createElement('b')
     c.setAttribute('class','egg');
     p.innerHTML = n;
-    c.appendChild(p)
     c.classList.add('trow'+x)
     c.classList.add('tcol'+y)
     c.classList.add('val'+n)
     u.appendChild(c)
-    setTimeout(()=>{c.classList.add('tile')},2)
+    setTimeout(()=>{c.classList.add('tile');
+    c.appendChild(p)},anidelay)
 }
 function rspawn(){
     let zeros = [];
@@ -55,8 +55,8 @@ function rspawn(){
     spawn(zeros[p][0], zeros[p][1], n)
 }
 function find(x, y){
-    let v = String('tile trow'+x+' tcol'+y)
-    return document.getElementsByClassName(v)[0]
+    let v = document.getElementsByClassName(String('egg trow'+x+' tcol'+y))
+    return v[0];
 }
 function move(x1,y1,x2,y2){
     let c = find(x1,y1)
@@ -318,6 +318,19 @@ function checkstates(){
         lost();
     }}, 10)
 }
+function mergeMove(x1,y1,x2,y2,r,ng){
+    let e = find(x1,y1);
+    move(x1,y1,x2,y2);
+    e.classList.remove('egg');
+    if (r){spawn(x2,y2,ng[x2][y2])
+        setTimeout(()=>{e.parentNode.removeChild(e); },anidelay);
+        if (ng[x1][y1] == 2048){
+            won();
+        }
+    }else{
+        setTimeout(()=>{e.parentNode.removeChild(e)},anidelay);
+    }
+}
 function up(){
     if (moving){
         console.log('moving')
@@ -337,19 +350,11 @@ function up(){
                         c++;
                     }
                     else if (r){
-                        let e = find(i,j)
-                        move(i,j,c,j);
-                        setTimeout(()=>{e.parentNode.removeChild(e)},anidelay)
+                        mergeMove(i,j,c,j,r,ng);
                         c++;
                         r = false;
                     }else{
-                        let e = find(i,j)
-                        move(i,j,c,j);
-                        let y = c;
-                        setTimeout(()=>{e.parentNode.removeChild(e); spawn(y,j,ng[y][j])},anidelay)
-                        if (ng[y][j] == 2048){
-                            won()
-                        }
+                        mergeMove(i,j,c,j,r,ng);
                         r = true;
                     }
                 }
@@ -379,19 +384,11 @@ function down(){
                         c--;
                     }
                     else if (r){
-                        let e = find(i,j)
-                        move(i,j,c,j);
-                        setTimeout(()=>{e.parentNode.removeChild(e)},anidelay)
+                        mergeMove(i,j,c,j,r,ng);
                         c--;
                         r = false;
                     }else{
-                        let e = find(i,j)
-                        move(i,j,c,j);
-                        let y = c;
-                        setTimeout(()=>{e.parentNode.removeChild(e); spawn(y,j,ng[y][j])},anidelay)
-                        if (ng[y][j] == 2048){
-                            won()
-                        }
+                        mergeMove(i,j,c,j,r,ng);
                         r = true;
                     }
                 }
@@ -421,19 +418,11 @@ function left(){
                         c = c+1;
                     }
                     else if (r){
-                        let e = find(i,j)
-                        move(i,j,i,c);
-                        setTimeout(()=>{e.parentNode.removeChild(e)},anidelay)
+                        mergeMove(i,j,i,c,r,ng);
                         c = c+1;
                         r = false;
                     }else{
-                        let e = find(i,j)
-                        move(i,j,i,c);
-                        let y = c;
-                        setTimeout(()=>{e.parentNode.removeChild(e); spawn(i,y,ng[i][y])},anidelay)
-                        if (ng[i][y] == 2048){
-                            won()
-                        }
+                        mergeMove(i,j,i,c,r,ng);
                         r = true;
                     }
                 }
@@ -463,19 +452,11 @@ function right(){
                         c--;
                     }
                     else if (r){
-                        let e = find(i,j)
-                        move(i,j,i,c);
-                        setTimeout(()=>{e.parentNode.removeChild(e)},anidelay)
+                        mergeMove(i,j,i,c,r,ng);
                         c--;
                         r = false;
                     }else{
-                        let e = find(i,j)
-                        move(i,j,i,c);
-                        let y = c;
-                        setTimeout(()=>{e.parentNode.removeChild(e); spawn(i,y,ng[i][y])},anidelay)
-                        if (ng[i][y] == 2048){
-                            won()
-                        }
+                        mergeMove(i,j,i,c,r,ng);
                         r = true;
                     }
                 }

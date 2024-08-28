@@ -155,6 +155,7 @@ h1{
 }
 .tile b{
     margin:auto;
+    user-select:none;
 }
 .tile.title{
     position:relative;

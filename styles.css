@@ -159,6 +159,10 @@ h1{
 .tile.title{
     position:relative;
     margin:calc(var(--width)*12.5/500 + 5px);
+    text-decoration: none;
+}
+.title{
+    text-decoration:none;
 }
 .val2{
     background-color: #eee4da;

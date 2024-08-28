@@ -240,7 +240,8 @@ function restart(){
     s.setAttribute('class', 'game-message');
     s.innerHTML='';
     let c = document.getElementsByClassName('tile');
-    for (let i = c.length-1; i>=0; i--){
+    for (let i = c.length-1; i>0; i--){
+        
         setTimeout(()=>{c[i].parentNode.removeChild(c[i])},10);
     }
     gamegrid = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
@@ -324,7 +325,7 @@ function mergeMove(x1,y1,x2,y2,r,ng){
     e.classList.remove('egg');
     if (r){spawn(x2,y2,ng[x2][y2])
         setTimeout(()=>{e.parentNode.removeChild(e); },anidelay);
-        if (ng[x1][y1] == 2048){
+        if (ng[x2][y2] == 2048){
             won();
         }
     }else{

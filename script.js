@@ -5,6 +5,8 @@ var gamegrid = [[0,0,0,0],
 var moving = false;
 const movingdelay = 10;
 const anidelay = 100;
+var score = 0;
+var max_score=0;
 function diff(a,b){
     let d = false;
     for (let i = 0; i<4; i++){
@@ -248,6 +250,8 @@ function restart(){
     rspawn();
     rspawn();
     moving=false;
+    score=0;
+    changeScore(0);
 }
 function cont(){
     let s = document.getElementsByClassName('game-message')[0];
@@ -319,6 +323,16 @@ function checkstates(){
         lost();
     }}, 10)
 }
+function changeScore(n){
+    score+=n;
+    m = document.getElementsByClassName('max-content')[0];
+    s = document.getElementsByClassName('score-content')[0];
+    s.innerHTML = score;
+    if (score>max_score){
+        max_score=score;
+        m.innerHTML=max_score;
+    }
+}
 function mergeMove(x1,y1,x2,y2,r,ng){
     let e = find(x1,y1);
     move(x1,y1,x2,y2);
@@ -330,6 +344,7 @@ function mergeMove(x1,y1,x2,y2,r,ng){
         }
     }else{
         setTimeout(()=>{e.parentNode.removeChild(e)},anidelay);
+        changeScore(ng[x2][y2]);
     }
 }
 function up(){

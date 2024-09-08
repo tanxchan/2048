@@ -32,6 +32,24 @@ h1{
     width:var(--width);
     margin:auto;
 }
+.score-container{
+    display:flex;
+    flex-direction:row;
+    width:calc(var(--width)*1.025)
+}
+.score{
+    display:flex;
+    flex-direction: row;
+    background-color: gray;
+    color: whitesmoke;
+    border-radius:1rem;
+    width:calc(var(--width)*1);
+    margin:calc(var(--width)*0.02);
+    padding:calc(var(--width)*0.03);
+}
+.score-content, .max-content{
+    margin:auto;
+}
 .game-message{
     position:absolute;
     display:absolute;

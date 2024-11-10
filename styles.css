@@ -124,9 +124,9 @@ h1{
     color:rgb(86, 84, 213);
 }
 .container{
-    display:grid;
-    grid-template-columns: repeat(4, minmax(0,1fr));
-    grid-template-rows: repeat(4, minmax(0,1fr));
+    display:block;
+    /*grid-template-columns: repeat(4, minmax(0,1fr));
+    grid-template-rows: repeat(4, minmax(0,1fr)); */
     height: var(--height);
     width: var(--width);
     background-color: gray;
@@ -151,6 +151,7 @@ h1{
 }
 .back, .tile{
     display: grid;
+    position: absolute;
     height: calc(var(--height)/5);
     width: calc(var(--width)/5);
     background-color: darkgray;
@@ -158,9 +159,6 @@ h1{
     margin:auto;
     transition-duration: 150ms;
     transition-timing-function: ease-out;
-}
-.tile{
-    position: absolute;
 }
 .tile{
     font-family: 'Clear Sans', sans-serif;
@@ -259,30 +257,6 @@ h1{
     box-shadow: 0 0 28px 25px rgba(116, 243, 133, 0.556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333);
     font-size: calc(27.5/500*var(--height));
 }
-.col0{
-    grid-column:1;
-}
-.col1{
-    grid-column:2;
-}
-.col2{
-    grid-column:3;
-}
-.col3{
-    grid-column:4;
-}
-.row0{
-    grid-row:1;
-}
-.row1{
-    grid-row:2;
-}
-.row2{
-    grid-row:3;
-}
-.row3{
-    grid-row:4;
-}
 .tcol0{
     left:calc(12.5/500*var(--width));
 }
@@ -318,7 +292,7 @@ h1{
     display:inline-block;
     position:fixed;
     bottom:0%;
-    padding:2rem;
+    padding:2vh;
     width:100vw;
     background-color:lightgray;
 }
@@ -398,7 +372,7 @@ h1{
             display:inline-block;
             position:fixed;
             bottom:0%;
-            padding:2rem;
+            padding:2vh;
             width:100vw;
             background-color:lightgray;
         }

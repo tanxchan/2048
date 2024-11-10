@@ -18,12 +18,27 @@ function diff(a,b){
     }
     return d;
 }
+function calcExp(n){
+    return (Math.log2(n)-0.1)*n;
+}
+function totalExp(){
+    let sum = 0;
+    for (let i =0; i<4; i++){
+        for (let j = 0; j<4; j++){
+            n = gamegrid[i][j];
+            if (n!=0){
+                sum+=calcExp(n);
+            }
+        }
+    }
+    return sum;
+}
 function bg(x, y){
-    let u = document.getElementsByClassName('container')[0]
+    let u = document.getElementsByClassName('game-container')[0]
     let c = document.createElement('div')
     c.setAttribute('class', 'back')
-    c.classList.add('row'+x)
-    c.classList.add('col'+y)
+    c.classList.add('trow'+x)
+    c.classList.add('tcol'+y)
     u.appendChild(c)
 }
 function spawn(x, y, n){
@@ -39,6 +54,7 @@ function spawn(x, y, n){
     u.appendChild(c)
     setTimeout(()=>{c.classList.add('tile');
     c.appendChild(p)},anidelay)
+    changeScore(n);
 }
 function rspawn(){
     let zeros = [];
@@ -344,7 +360,6 @@ function mergeMove(x1,y1,x2,y2,r,ng){
         }
     }else{
         setTimeout(()=>{e.parentNode.removeChild(e)},anidelay);
-        changeScore(ng[x2][y2]);
     }
 }
 function up(){

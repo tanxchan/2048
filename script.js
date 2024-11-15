@@ -7,6 +7,16 @@ const movingdelay = 10;
 const anidelay = 100;
 var score = 0;
 var max_score=0;
+var hasWon = false;
+//various settings for future implementation
+//idk how to make a settings screen
+var doScoreAnimations = true;//whether or not to show +2 +4 etc
+var winOn2048 = true;//whether or not to show win screen every time 2048 is created
+var useImages = false;//todo
+//custom colors
+//add shaking screen or smth
+
+
 function diff(a,b){
     let d = false;
     for (let i = 0; i<4; i++){
@@ -82,6 +92,23 @@ function move(x1,y1,x2,y2){
     c.classList.add('tcol'+y2)
     c.classList.remove('trow'+x1)
     c.classList.add('trow'+x2)
+}
+function spawnNumber(x, y, n, z){
+    let c = document.createElement("div");
+    let l = document.createElement("p");
+    c.setAttribute("class", "score-add")
+    c.style.top=y+"px"
+    c.style.left=x+"px"
+    l.innerHTML = "+"+String(n);
+    c.appendChild(l);
+    z.appendChild(c);
+    return c;
+}
+function fadeNumber(c){
+    c.style.opacity = '0';
+    let curx = parseInt(c.style.top);
+    c.style.top = curx+10+'px';
+    setTimeout(()=>{c.parentNode.removeChild(c)}, 1000);
 }
 
 function horCrush(){
@@ -347,6 +374,26 @@ function changeScore(n){
     if (score>max_score){
         max_score=score;
         m.innerHTML=max_score;
+        if (doScoreAnimations){
+            theta = Math.random()*2*Math.PI;
+            r = Math.random()*30+30;
+            xdis = Math.floor(r*Math.cos(theta))+15
+            ydis = Math.floor(r*Math.sin(theta))
+            //console.log(Math.sqrt(xdis**2+ydis**2))
+            let z = m.parentElement;
+            let c = spawnNumber(xdis,ydis,n,z);
+            setTimeout(()=>{fadeNumber(c);},100);
+        }
+    }
+    if (doScoreAnimations){
+        theta = Math.random()*2*Math.PI;
+        r = Math.random()*30+30;
+        xdis = Math.floor(r*Math.cos(theta))+15
+        ydis = Math.floor(r*Math.sin(theta))
+        //console.log(Math.sqrt(xdis**2+ydis**2))
+        let z = s.parentElement;
+        let c = spawnNumber(xdis,ydis,n,z);
+        setTimeout(()=>{fadeNumber(c);},100);
     }
 }
 function mergeMove(x1,y1,x2,y2,r,ng){
@@ -356,7 +403,12 @@ function mergeMove(x1,y1,x2,y2,r,ng){
     if (r){spawn(x2,y2,ng[x2][y2])
         setTimeout(()=>{e.parentNode.removeChild(e); },anidelay);
         if (ng[x2][y2] == 2048){
-            won();
+            if (!hasWon){
+                won();
+                if (winOn2048){
+                    hasWon = true;
+                }
+            }
         }
     }else{
         setTimeout(()=>{e.parentNode.removeChild(e)},anidelay);

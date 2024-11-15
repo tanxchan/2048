@@ -39,6 +39,7 @@ h1{
 }
 .score{
     display:flex;
+    position:relative;
     flex-direction: row;
     background-color: gray;
     color: whitesmoke;
@@ -47,9 +48,26 @@ h1{
     margin:calc(var(--width)*0.02);
     padding:calc(var(--width)*0.03);
 }
-.score-content, .max-content{
+.score-box, .max-box{
+    position:relative;
     margin:auto;
 }
+.score-content, .max-content, .score b{
+    font-size:1.6rem;
+}
+
+.score-add{
+    position:absolute;
+    display:block;
+    background-color:transparent;
+    transition-duration:1000ms;
+}
+.score-add p{
+    color:whitesmoke;
+    font-size:1.4rem;
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.338)
+}
+
 .game-message{
     position:absolute;
     display:absolute;
@@ -317,6 +335,9 @@ h1{
     .banner-text{
         font-size: 4vw;
         padding: 3vw;
+    }
+    .score-content, .max-content, .score b{
+        font-size:1rem;
     }
 }
 @media (max-height: 800px){

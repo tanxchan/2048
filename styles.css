@@ -68,6 +68,33 @@ h1{
     text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.338)
 }
 
+.menu{
+    display:none;
+    flex-direction:column;
+    position:fixed;
+    margin:auto;
+    padding:calc(var(--height)*0.05);
+    border-radius:calc(var(--height)*0.05);
+    width:fit-content;
+    height:fit-content;
+    background-color:gray;
+    opacity:0.9;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.toggle-button{
+    padding:10px;
+    color:#eee4da;
+    background-color: #20b1a0;
+    border-radius:5px;
+    text-decoration: none;
+    user-select: none;
+    margin:5px;
+    cursor:pointer;
+}
+
 .game-message{
     position:absolute;
     display:absolute;
@@ -110,7 +137,7 @@ h1{
     z-index:2;
     color:white;
 }
-.restart-button{
+.restart-button, .settings-button{
     display:flex;
     background-color:gray;
     height:fit-content;
@@ -121,7 +148,7 @@ h1{
     transition-duration:250ms;
     cursor:pointer;
 }
-.restart-button b{
+.restart-button b, .settings-button i{
     padding:0.8rem;
     color:white;
     font-size: 2rem;
@@ -186,6 +213,12 @@ h1{
     font-weight: 90;
     transform:translate(0,0);
     opacity:1;
+}
+.tile .tile-img{
+    object-fit:cover;
+    height:inherit;
+    width:inherit;
+    border-radius:inherit;
 }
 .tile b{
     margin:auto;

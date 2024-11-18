@@ -14,6 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles.css">
         <link href="https://fonts.cdnfonts.com/css/clear-sans" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -21,9 +22,15 @@
         <![endif]-->
         <div class="outer">
             <div class="top">
-                <a class="title" href="https://tanchan2048.netlify.app"><div class="tile val2048 title"><b>2048</b></div></a>
+                <a class="title" href="https://tanchan2048.netlify.app" target="_blank"><div class="tile val2048 title"><b>2048</b></div></a>
                 <p class="banner-text">a game by tiancheng</p>
-                    <div class="restart-button"><b>restart</b></div>
+                <div class="restart-button"><b>restart</b></div>
+                <div class="settings-button"><i class="fa fa-gear"></i></div>
+            </div>
+            <div class="menu">
+                <div class='toggle-button' id="popup"><p>doScorePopups</p></div>
+                <div class='toggle-button' id="winscreen"><p>winOn2048</p></div>
+                <div class='toggle-button' id="cupcake"><p>useImages</p></div>
             </div>
             <div class="big">
                 <div class="game-container">

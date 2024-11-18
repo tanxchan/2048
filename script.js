@@ -12,7 +12,7 @@ var hasWon = false;
 //idk how to make a settings screen
 var doScoreAnimations = true;//whether or not to show +2 +4 etc
 var winOn2048 = true;//whether or not to show win screen every time 2048 is created
-var useImages = false;//todo
+var useImages = true;//chooses whether or not to use cupcake pngs (or any arbitrary pngs)
 //custom colors
 //add shaking screen or smth
 
@@ -29,7 +29,10 @@ function diff(a,b){
     return d;
 }
 function calcExp(n){
-    return (Math.log2(n)-0.1)*n;
+    if (n==2){
+        return 2;
+    }
+    return (Math.log2(n)-1/11)*n;
 }
 function totalExp(){
     let sum = 0;
@@ -51,16 +54,28 @@ function bg(x, y){
     c.classList.add('tcol'+y)
     u.appendChild(c)
 }
+function makeTile(n){
+    let p;
+    if (!useImages){
+        p = document.createElement('b')
+        p.innerHTML = n;
+    }else{
+        p = document.createElement('img');
+        p.setAttribute('src', '/public/tile'+n+'.png');
+        p.setAttribute('alt', n)
+        p.setAttribute('class', 'tile-img')
+    }
+    return p;
+}
 function spawn(x, y, n){
     gamegrid[x][y] = n;
     let u = document.getElementsByClassName('game-container')[0]
     let c = document.createElement('div')
-    let p = document.createElement('b')
+    let p = makeTile(n);
     c.setAttribute('class','egg');
-    p.innerHTML = n;
+    c.classList.add('val'+n)
     c.classList.add('trow'+x)
     c.classList.add('tcol'+y)
-    c.classList.add('val'+n)
     u.appendChild(c)
     setTimeout(()=>{c.classList.add('tile');
     c.appendChild(p)},anidelay)
@@ -86,6 +101,7 @@ function find(x, y){
     let v = document.getElementsByClassName(String('egg trow'+x+' tcol'+y))
     return v[0];
 }
+
 function move(x1,y1,x2,y2){
     let c = find(x1,y1)
     c.classList.remove('tcol'+y1)
@@ -290,11 +306,27 @@ function restart(){
         setTimeout(()=>{c[i].parentNode.removeChild(c[i])},10);
     }
     gamegrid = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-    rspawn();
-    rspawn();
     moving=false;
     score=0;
-    changeScore(0);
+    //changeScore(0);
+    rspawn();
+    rspawn();
+}
+function toggleMenu(){
+    let m = document.getElementsByClassName('menu')[0];
+    if (m.style.display==='none'){
+        openMenu();
+    }else{
+        closeMenu();
+    }
+}
+function openMenu(){
+    let m = document.getElementsByClassName('menu')[0];
+    m.style.display = 'flex';
+}
+function closeMenu(){
+    let m = document.getElementsByClassName('menu')[0];
+    m.style.display = 'none';
 }
 function cont(){
     let s = document.getElementsByClassName('game-message')[0];
@@ -410,7 +442,7 @@ function mergeMove(x1,y1,x2,y2,r,ng){
         if (ng[x2][y2] == 2048){
             if (!hasWon){
                 won();
-                if (winOn2048){
+                if (!winOn2048){
                     hasWon = true;
                 }
             }
@@ -555,6 +587,27 @@ function right(){
         checkstates();
     }
 }
+function toggleImages(){
+    useImages = !useImages;
+    let tiles = document.getElementsByClassName('tile');
+    for (let i = 0; i<tiles.length; i++){
+        let a = tiles[i];
+        //a.innerHtml = "";
+        a.removeChild(a.children[0]);
+        let n = parseInt(a.classList[1].substring(3))
+        console.log(a, n)
+        //setTimeout(()=>{a.appendChild(makeTile(n))},10)
+        a.appendChild(makeTile(n))
+    }
+
+}
+function toggleToggleButton(a,b){
+    if (b){
+        a.style.backgroundColor = "#20b1a0";
+    }else{
+        a.style.backgroundColor = "#2e54ed";
+    }
+}
 for (let i = 0; i<4; i++){
     for (let j = 0; j<4; j++){
         bg(i,j)
@@ -572,6 +625,27 @@ document.addEventListener('keydown', function(event) {
     callback?.() // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
 });
 document.getElementsByClassName('restart-button')[0].addEventListener('click', restart);
+let sb = document.getElementsByClassName('settings-button')[0]
+sb.addEventListener('click', toggleMenu);
+// sb.addEventListener('mouseenter', ()=>{
+//     sb.innerHTML='<i class="fa fa-gear fa-spin"></i>'
+// })
+// sb.addEventListener('mouseleave', ()=>{
+//     sb.innerHTML='<i class="fa fa-gear"></i>'
+// })
+document.getElementById('popup').addEventListener('click', ()=>{
+    doScoreAnimations = !doScoreAnimations;
+    toggleToggleButton(document.getElementById('popup'), doScoreAnimations);
+})
+document.getElementById('winscreen').addEventListener('click', ()=>{
+    winOn2048 = !winOn2048;
+    toggleToggleButton(document.getElementById('winscreen'), winOn2048);
+})
+
+document.getElementById('cupcake').addEventListener('click', ()=>{
+    toggleImages();
+    toggleToggleButton(document.getElementById('cupcake'), useImages);
+})
 
 document.addEventListener('touchstart', handleTouchStart, false);        
 document.addEventListener('touchmove', handleTouchMove, false);

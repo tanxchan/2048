@@ -162,10 +162,10 @@ h1{
     height:calc(var(--height)*100/500);
     width:var(--width);
 }
-.restart-button:hover{
+.restart-button:hover, .settings-button:hover{
     background-color: rgb(156, 112, 112);
 }
-.restart-button:hover b{
+.restart-button:hover b, .settings-button:hover{
     color:rgb(86, 84, 213);
 }
 .container{
@@ -358,8 +358,9 @@ h1{
     .restart-button b{
         padding:2vw;
     }
-    .restart-button{
-        margin: auto;
+    .restart-button, .settings-button{
+        margin:auto;
+        margin-left: 1vw;
     }
     .top h1{
         font-size: 10vw;
@@ -405,8 +406,11 @@ h1{
         .restart-button b{
             padding:2vw;
         }
-        .restart-button{
+        .restart-button, .settings-button{
             margin: auto;
+        }
+        .settings-button{
+            margin-top:3vh;
         }
         .top h1{
             font-size: 10vw;

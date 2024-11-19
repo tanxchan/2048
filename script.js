@@ -595,7 +595,7 @@ function toggleImages(){
         //a.innerHtml = "";
         a.removeChild(a.children[0]);
         let n = parseInt(a.classList[1].substring(3))
-        console.log(a, n)
+        //console.log(a, n)
         //setTimeout(()=>{a.appendChild(makeTile(n))},10)
         a.appendChild(makeTile(n))
     }

@@ -16,6 +16,82 @@ var useImages = true;//chooses whether or not to use cupcake pngs (or any arbitr
 //custom colors
 //add shaking screen or smth
 
+function deleteAllCookies() {
+    document.cookie.split(';').forEach(cookie => {
+        const eqPos = cookie.indexOf('=');
+        const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    });
+}
+function writeScoreCookie(){
+    document.cookie = 'score='+String(score)+';';
+}
+function writeMaxScoreCookie(){
+    document.cookie = 'maxScore='+String(max_score)+';';
+}
+function readCookie(cookieString){
+    try {
+    let c = document.cookie;
+    let n1 = c.search(cookieString)+cookieString.length;
+    let n2 = c.length;
+    for (let i = n1; i<c.length; i++){
+        if (c[i] == ';'){
+            n2 = i+1;
+            break;
+        }
+    }
+    let s = c.substring(n1, n2);
+    return s;
+    }
+    catch{
+        return '';
+    }
+}
+function readScoreCookie(){
+    let n = readCookie('score=')
+    if (n.length == 0){
+        return 0;
+    }
+    let s = parseInt(n);
+    return s;
+}
+function readMaxScoreCookie(){
+    let n = readCookie('maxScore=')
+    if (n.length == 0){
+        return 0;
+    }
+    let s = parseInt(n);
+    return s;
+}
+function writeBoardCookie(){
+    let c = '';
+    for (let i = 0; i<4; i++){
+        //c = c + '[';
+        for (let j = 0; j<4; j++){
+            c = c + ' ' + gamegrid[i][j];
+        }
+        //c = c + ']';
+    }
+    document.cookie = 'boardCookie=' + c + ';';
+}
+function readBoardCookie(){
+    let c = readCookie('boardCookie=');
+    //console.log(c)
+    if (c.length==0){
+        return [];
+    }
+    let g = c.split(' ');
+    let ngb = []
+    for (let i = 0; i<4; i++){
+        let cr = [];
+        for (let j = 0; j<4; j++){
+            cr.push(parseInt(g[i*4+j]));
+        }
+        ngb.push(cr);
+    }
+    console.log(ngb)
+    return ngb;
+}
 
 function diff(a,b){
     let d = false;
@@ -68,6 +144,10 @@ function makeTile(n){
     return p;
 }
 function spawn(x, y, n){
+    spawnInner(x,y,n);
+    changeScore(n);
+}
+function spawnInner(x, y, n){
     gamegrid[x][y] = n;
     let u = document.getElementsByClassName('game-container')[0]
     let c = document.createElement('div')
@@ -79,7 +159,6 @@ function spawn(x, y, n){
     u.appendChild(c)
     setTimeout(()=>{c.classList.add('tile');
     c.appendChild(p)},anidelay)
-    changeScore(n);
 }
 function rspawn(){
     let zeros = [];
@@ -312,6 +391,10 @@ function restart(){
     rspawn();
     rspawn();
 }
+function resetProgress(){
+    max_score = 0;
+    restart();
+}
 function toggleMenu(){
     let m = document.getElementsByClassName('menu')[0];
     if (m.style.display==='none'){
@@ -405,8 +488,8 @@ function checkstates(){
 }
 function changeScore(n){
     score+=n;
-    m = document.getElementsByClassName('max-content')[0];
-    s = document.getElementsByClassName('score-content')[0];
+    let m = document.getElementsByClassName('max-content')[0];
+    let s = document.getElementsByClassName('score-content')[0];
     s.innerHTML = score;
     if (score>max_score){
         max_score=score;
@@ -440,11 +523,9 @@ function mergeMove(x1,y1,x2,y2,r,ng){
     if (r){spawn(x2,y2,ng[x2][y2])
         setTimeout(()=>{e.parentNode.removeChild(e); },anidelay);
         if (ng[x2][y2] == 2048){
-            if (!hasWon){
+            if (!hasWon&&!winOn2048){
                 won();
-                if (!winOn2048){
-                    hasWon = true;
-                }
+                hasWon = true;
             }
         }
     }else{
@@ -613,8 +694,41 @@ for (let i = 0; i<4; i++){
         bg(i,j)
     }
 }
-rspawn();
-rspawn();
+
+function savedProgress(){
+    let ngb = readBoardCookie();
+    let sc = readScoreCookie();
+    let ms = readMaxScoreCookie();
+    if (sc == 0 || ngb.length == 0 || ms == 0){
+        restart()
+        return false;
+    }
+    max_score = ms;
+    score = sc;
+    for (let i = 0; i<4; i++){
+        for (let j = 0; j<4; j++){
+            if (ngb[i][j] != 0){
+                spawnInner(i,j,ngb[i][j]);
+            }
+        }
+    }
+    let m = document.getElementsByClassName('max-content')[0];
+    let s = document.getElementsByClassName('score-content')[0];
+    s.innerHTML = score;
+    m.innerHTML = max_score;
+}
+window.addEventListener('load', ()=>{
+    console.log('loaded')
+    //alert('hello there')
+    savedProgress();
+})
+window.addEventListener('beforeunload', ()=>{
+    deleteAllCookies();
+    writeScoreCookie();
+    writeMaxScoreCookie();
+    writeBoardCookie();
+})
+
 document.addEventListener('keydown', function(event) {
         const callback = {
         "ArrowLeft"  : left,
@@ -645,6 +759,12 @@ document.getElementById('winscreen').addEventListener('click', ()=>{
 document.getElementById('cupcake').addEventListener('click', ()=>{
     toggleImages();
     toggleToggleButton(document.getElementById('cupcake'), useImages);
+})
+
+document.getElementById('reset').addEventListener('click', ()=>{
+    //toggleImages();
+    //toggleToggleButton(document.getElementById('cupcake'), useImages);
+    resetProgress();
 })
 
 document.addEventListener('touchstart', handleTouchStart, false);        

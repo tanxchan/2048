@@ -29,6 +29,12 @@ function writeScoreCookie(){
 function writeMaxScoreCookie(){
     document.cookie = 'maxScore='+String(max_score)+';';
 }
+function saveSettingsCookies(){//save the settings of the game
+    //add saving the actual game later?
+    document.cookie = "doScoreAnimations="+doScoreAnimations+';';
+    document.cookie = 'winOn2048='+winOn2048+';';
+    document.cookie = 'useImages='+useImages+';';
+}
 function readCookie(cookieString){
     try {
     let c = document.cookie;
@@ -93,6 +99,30 @@ function readBoardCookie(){
     return ngb;
 }
 
+function readCookies(){
+    let nsa = readCookie('doScoreAnimations=');
+    let nwin = readCookie('winOn2048=');
+    let nui = readCookie('useImages=');
+    if (nsa.length==0 || nwin.length==0||nui.length==0){
+        return false;
+    }
+    doScoreAnimations = nsa.search('true')>-1;
+    winOn2048 = nwin.search('true')>-1;
+    useImages = nui.search('true')>-1;
+    //console.log(doScoreAnimations)
+    //console.log(nsa)
+    if (!doScoreAnimations){
+        toggleToggleButton(document.getElementById('popup'), doScoreAnimations)
+    }
+    if (!winOn2048){
+        toggleToggleButton(document.getElementById('winscreen'), winOn2048);
+    }
+    if (!useImages){
+        useImages = true;
+        toggleImages();
+        toggleToggleButton(document.getElementById('cupcake'), useImages);
+    }
+}
 function diff(a,b){
     let d = false;
     for (let i = 0; i<4; i++){
@@ -720,6 +750,7 @@ function savedProgress(){
 window.addEventListener('load', ()=>{
     console.log('loaded')
     //alert('hello there')
+    readCookies();
     savedProgress();
 })
 window.addEventListener('beforeunload', ()=>{
@@ -727,6 +758,7 @@ window.addEventListener('beforeunload', ()=>{
     writeScoreCookie();
     writeMaxScoreCookie();
     writeBoardCookie();
+    saveSettingsCookies();
 })
 
 document.addEventListener('keydown', function(event) {
